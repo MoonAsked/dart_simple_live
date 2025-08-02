@@ -58,13 +58,11 @@ jobs:
           cd simple_live_app
           flutter pub get
 
-      # 安装appdmg npm install -g appdmg
-      - name: Install appdmg
-        run: npm install -g appdmg
-
-      # 设置flutter_distributor环境
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      # 跳过appdmg和flutter_distributor安装，使用基本构建
+      # - name: Install appdmg
+      #   run: npm install -g appdmg
+      # - name: Install flutter_distributor
+      #   run: dart pub global activate flutter_distributor
 
       # 打包APK (无签名版本用于测试)
       - name: Build APK
@@ -135,11 +133,11 @@ jobs:
           path: |
             simple_live_app/build/ios/iphoneos/ios_no_sign.ipa
 
-      # 打包MAC
+      # 打包MAC (简化版本，先测试基本构建)
       - name: Build MacOS
         run: |
           cd simple_live_app
-          flutter_distributor package --platform macos --targets dmg,zip --skip-clean
+          flutter build macos --debug
       
       # 上传MAC至Artifacts
       - name: Upload MacOS to Artifacts
@@ -147,8 +145,7 @@ jobs:
         with:
           name: mac
           path: |
-            simple_live_app/build/dist/*/*.dmg
-            simple_live_app/build/dist/*/*.zip
+            simple_live_app/build/macos/Build/Products/Debug/
       #完成
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
@@ -181,22 +178,21 @@ jobs:
         run: |
           cd simple_live_app
           flutter pub get
-      # 设置flutter_distributor环境
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
-      # build Linux ZIP\DMG
+      # 跳过flutter_distributor安装，使用基本构建
+      # - name: Install flutter_distributor
+      #   run: dart pub global activate flutter_distributor
+      # build Linux (简化版本，先测试基本构建)
       - name: Build Linux
         run: |
           cd simple_live_app
-          flutter_distributor package --platform linux --targets deb,zip --skip-clean
+          flutter build linux --debug
       # 上传Linux包至Artifacts
       - name: Upload Linux APP to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: linux
           path: |
-            simple_live_app/build/dist/*/*.deb
-            simple_live_app/build/dist/*/*.zip
+            simple_live_app/build/linux/x64/debug/bundle/
 
         #完成
       - run: echo "🍏 Linux job's status is ${{ job.status }}."
@@ -223,21 +219,20 @@ jobs:
         run: |
           cd simple_live_app
           flutter pub get
-      # 设置flutter_distributor环境
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
-      # build Windows ZIP\MSIX
+      # 跳过flutter_distributor安装，使用基本构建
+      # - name: Install flutter_distributor
+      #   run: dart pub global activate flutter_distributor
+      # build Windows (简化版本，先测试基本构建)
       - name: Build Windows
         run: |
           cd simple_live_app
-          flutter_distributor package --platform windows --targets msix,zip --skip-clean
+          flutter build windows --debug
       # 上传Windows至Artifacts
       - name: Upload Windows APP to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows
           path: |
-            simple_live_app/build/dist/*/*.msix
-            simple_live_app/build/dist/*/*.zip
+            simple_live_app/build/windows/x64/runner/Debug/
         #完成
       - run: echo "🍏 Windows job's status is ${{ job.status }}."
