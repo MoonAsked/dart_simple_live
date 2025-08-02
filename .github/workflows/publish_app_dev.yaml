@@ -52,8 +52,16 @@ jobs:
       - name: Enable Flutter Desktop
         run: flutter config --enable-macos-desktop
 
-      # 更新Flutter的packages
-      - name: Restore packages
+      # 调试信息
+      - name: Flutter Doctor
+        run: flutter doctor -v
+
+      # 更新Flutter的packages (包括依赖项目)
+      - name: Restore packages for core
+        run: |
+          cd simple_live_core
+          flutter pub get
+      - name: Restore packages for app
         run: |
           cd simple_live_app
           flutter pub get
@@ -93,6 +101,12 @@ jobs:
       #     echo "storePassword=${{ secrets.TV_STORE_PASSWORD }}" >> simple_live_tv_app/android/key.properties
       #     echo "keyPassword=${{ secrets.TV_KEY_PASSWORD }}" >> simple_live_tv_app/android/key.properties
       #     echo "keyAlias=${{ secrets.TV_KEY_ALIAS }}" >> simple_live_tv_app/android/key.properties
+
+      # 更新TV应用的packages
+      - name: Restore packages for TV app
+        run: |
+          cd simple_live_tv_app
+          flutter pub get
 
       #打包 Android TV APK (无签名版本用于测试)
       - name: Build TV APK
@@ -173,8 +187,12 @@ jobs:
       # 打开Linux Desktop支持
       - name: Enable Flutter Desktop
         run: flutter config --enable-linux-desktop
-      # 更新Flutter的packages
-      - name: Restore Packages
+      # 更新Flutter的packages (包括依赖项目)
+      - name: Restore packages for core
+        run: |
+          cd simple_live_core
+          flutter pub get
+      - name: Restore Packages for app
         run: |
           cd simple_live_app
           flutter pub get
@@ -215,7 +233,11 @@ jobs:
           cache: true
       - name: Enable Flutter Desktop
         run: flutter config --enable-windows-desktop
-      - name: Restore Packages
+      - name: Restore packages for core
+        run: |
+          cd simple_live_core
+          flutter pub get
+      - name: Restore Packages for app
         run: |
           cd simple_live_app
           flutter pub get
