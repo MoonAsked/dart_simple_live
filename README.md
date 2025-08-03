@@ -10,6 +10,12 @@
 简简单单的看直播
 </p>
 
+<p align="center">
+<a href="https://github.com/MoonAsked/dart_simple_live/actions">
+<img src="https://github.com/MoonAsked/dart_simple_live/actions/workflows/publish_app_dev.yaml/badge.svg" alt="CI/CD Status">
+</a>
+</p>
+
 ![浅色模式](/assets/screenshot_light.jpg)
 
 ![深色模式](/assets/screenshot_dark.jpg)
